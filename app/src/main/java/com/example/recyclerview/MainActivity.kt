@@ -43,11 +43,11 @@ class MainActivity : AppCompatActivity(), CardAdapter.Listener {
                 cardNumber++
             }
         }
-
     }
     override fun onClick(card: Card) {
         Toast.makeText(this,"Нажата ${card.title}",Toast.LENGTH_LONG).show()
     }
+
     private fun getTouchMg(): ItemTouchHelper {
         return ItemTouchHelper(object:ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN,ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT){
             override fun onMove(
@@ -55,7 +55,8 @@ class MainActivity : AppCompatActivity(), CardAdapter.Listener {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                return false
+                adapter.toggle(viewHolder.adapterPosition,target.adapterPosition)
+                return true
             }
 
             override fun isLongPressDragEnabled(): Boolean {

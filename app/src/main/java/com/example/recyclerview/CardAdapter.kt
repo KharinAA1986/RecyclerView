@@ -5,8 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerview.databinding.CardItemBinding
+import java.util.*
 
-class CardAdapter(val listener: Listener): RecyclerView.Adapter<CardAdapter.CardHolder>() {
+
+class CardAdapter(private val listener: Listener): RecyclerView.Adapter<CardAdapter.CardHolder>() {
     private val cardList = ArrayList<Card>()
     class CardHolder (item: View): RecyclerView.ViewHolder(item) {
         private val binding = CardItemBinding.bind(item)
@@ -39,6 +41,19 @@ class CardAdapter(val listener: Listener): RecyclerView.Adapter<CardAdapter.Card
         cardList.removeAt(pos)
         notifyItemRangeChanged(0,cardList.size)
         notifyItemRemoved(pos)
+    }
+
+    fun toggle (fromPos: Int, toPos: Int){
+        if (fromPos < toPos) {
+            for (i in fromPos until toPos) {
+                Collections.swap(cardList, i, i + 1)
+            }
+        } else {
+            for (i in fromPos downTo toPos + 1) {
+                Collections.swap(cardList, i, i - 1)
+            }
+        }
+        notifyItemMoved(fromPos, toPos)
     }
     interface Listener {
         fun onClick(card: Card)
