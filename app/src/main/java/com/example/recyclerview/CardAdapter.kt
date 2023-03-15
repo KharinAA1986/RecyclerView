@@ -34,6 +34,12 @@ class CardAdapter(val listener: Listener): RecyclerView.Adapter<CardAdapter.Card
         cardList.add(card)
         notifyDataSetChanged()
     }
+
+    fun removeCard (pos:Int){
+        cardList.removeAt(pos)
+        notifyItemRangeChanged(0,cardList.size)
+        notifyItemRemoved(pos)
+    }
     interface Listener {
         fun onClick(card: Card)
     }
